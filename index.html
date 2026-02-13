@@ -3,17 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Dr Fixit Health Checker</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
-<!-- iPhone Home Screen metadata -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Dr Fixit Health Checker">
 <meta name="theme-color" content="#0d3b66">
 <link rel="apple-touch-icon" href="icon.png">
 
 <style>
-body {
+body{
     margin:0;
     font-family:'Roboto',sans-serif;
     background:#f5f8fb;
@@ -31,13 +32,10 @@ main{
     margin:auto;
     padding:20px;
 }
-.screen{ display:none; }
-.screen.active{ display:block; }
+.screen{display:none;}
+.screen.active{display:block;}
 
-h2{
-    font-size:1.2em;
-    margin-bottom:12px;
-}
+h2{font-size:1.2em;margin-bottom:12px;}
 
 .options{
     display:flex;
@@ -45,7 +43,6 @@ h2{
     gap:10px;
     margin-bottom:20px;
 }
-
 .options button{
     flex:1 1 48%;
     padding:12px;
@@ -53,10 +50,8 @@ h2{
     border-radius:6px;
     background:white;
     color:#0d3b66;
-    font-size:1em;
     cursor:pointer;
 }
-
 .options button.selected{
     background:#0d3b66;
     color:white;
@@ -65,8 +60,8 @@ h2{
 textarea{
     width:100%;
     padding:10px;
-    border-radius:6px;
     border:1px solid #0d3b66;
+    border-radius:6px;
     margin-bottom:20px;
 }
 
@@ -77,46 +72,11 @@ textarea{
     border-radius:6px;
     background:#0d3b66;
     color:white;
-    font-size:1em;
     font-weight:500;
     cursor:pointer;
 }
 
-.loading{
-    text-align:center;
-    font-size:1.1em;
-    margin-top:30px;
-}
-
-.final{
-    text-align:left;
-    background:white;
-    border-radius:10px;
-    padding:30px 20px;
-    box-shadow:0 4px 14px rgba(0,0,0,0.08);
-    opacity:0;
-    transform:scale(0.95);
-    transition:all .7s ease;
-}
-
-.final.show{
-    opacity:1;
-    transform:scale(1);
-}
-
-.final h2{
-    font-size:1.4em;
-    margin-bottom:14px;
-}
-
-.final p{
-    font-size:1em;
-    line-height:1.5;
-    font-weight:400;
-    color:#234;
-}
-
-.progress-bar{
+.progress{
     width:100%;
     height:6px;
     background:#d1e3f0;
@@ -124,157 +84,231 @@ textarea{
     margin-bottom:20px;
     overflow:hidden;
 }
-
 .progress-fill{
     height:100%;
     width:0%;
     background:#0d3b66;
-    transition: width 0.5s ease;
-    border-radius:3px;
+    transition:width .5s ease;
+}
+
+.loading{
+    text-align:center;
+    margin-top:30px;
+    font-size:1.1em;
+}
+
+.final{
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 4px 14px rgba(0,0,0,.08);
+    opacity:0;
+    transform:scale(.95);
+    transition:all .7s ease;
+}
+.final.show{
+    opacity:1;
+    transform:scale(1);
+}
+.final p{
+    font-size:0.98em;
+    line-height:1.5;
+    color:#234;
+}
+
+.logbox{
+    background:#f8f8f8;
+    border:1px solid #ddd;
+    border-radius:8px;
+    padding:15px;
+    font-size:.95em;
+    line-height:1.7;
+    min-height:180px;
 }
 </style>
 </head>
+
 <body>
 
 <header>Dr Fixit Health Checker</header>
 
 <main>
 
-<!-- PROGRESS BAR -->
-<div class="progress-bar">
-    <div class="progress-fill" id="progressFill"></div>
-</div>
+<div class="progress"><div class="progress-fill" id="progressFill"></div></div>
 
 <!-- SCREEN 1 -->
 <div class="screen active" id="screen1">
-    <h2>Select your symptoms</h2>
-    <div class="options">
-        <button>High blood pressure</button>
-        <button>Fatigue</button>
-        <button>Stress</button>
-        <button>Poor sleep</button>
-        <button>Low motivation</button>
-        <button>Headaches</button>
-        <button>Anxiety</button>
-        <button>Muscle tension</button>
-    </div>
-    <textarea placeholder="Other symptoms (optional)"></textarea>
-    <button class="nav-btn" onclick="next(2)">Continue</button>
+<h2>Select your symptoms</h2>
+<div class="options">
+<button>High blood pressure</button>
+<button>Fatigue</button>
+<button>Stress</button>
+<button>Poor sleep</button>
+<button>Low motivation</button>
+<button>Headaches</button>
+<button>Anxiety</button>
+<button>Muscle tension</button>
+</div>
+<textarea placeholder="Other symptoms (optional)"></textarea>
+<button class="nav-btn" onclick="next(2)">Continue</button>
 </div>
 
 <!-- SCREEN 2 -->
 <div class="screen" id="screen2">
-    <h2>Lifestyle factors</h2>
-    <div class="options">
-        <button>Limited exercise</button>
-        <button>Long working hours</button>
-        <button>Poor work-life balance</button>
-        <button>Low energy levels</button>
-        <button>High stress environment</button>
-        <button>Not enough rest</button>
-    </div>
-    <button class="nav-btn" onclick="next(3)">Continue</button>
+<h2>Lifestyle factors</h2>
+<div class="options">
+<button>Limited exercise</button>
+<button>Long working hours</button>
+<button>Poor work-life balance</button>
+<button>High stress environment</button>
+<button>Low energy levels</button>
+<button>Insufficient rest</button>
+</div>
+<button class="nav-btn" onclick="next(3)">Continue</button>
 </div>
 
 <!-- SCREEN 3 -->
 <div class="screen" id="screen3">
-    <h2>What do you think may be contributing?</h2>
-    <div class="options">
-        <button>Diet</button>
-        <button>Sleep</button>
-        <button>Exercise</button>
-        <button>Work</button>
-        <button>Relationships</button>
-        <button>Other</button>
-    </div>
-    <button class="nav-btn" onclick="showLoading()">Analyse</button>
+<h2>What may be contributing?</h2>
+<div class="options">
+<button>Diet</button>
+<button>Sleep</button>
+<button>Exercise</button>
+<button>Work</button>
+<button>Relationships</button>
+<button>Other</button>
+</div>
+<button class="nav-btn" onclick="showLoading()">Analyse</button>
 </div>
 
-<!-- SCREEN 4 LOADING -->
+<!-- SCREEN 4 -->
 <div class="screen" id="screen4">
-    <div class="loading">Analysing health profile... AI confidence: 94%</div>
+<div class="loading">
+Analysing health profile…<br>
+AI model confidence: 94%
+</div>
 </div>
 
-<!-- FINAL SCREEN -->
+<!-- SCREEN 5 RESULT -->
 <div class="screen" id="screen5">
-    <div class="final" id="finalBox">
+<div class="final" id="finalBox">
+<h2>Primary Recommendation</h2>
 
-        <h2>Primary Recommendation</h2>
+<p style="font-size:1.2em;font-weight:700;">Leave your job</p>
 
-        <p style="font-size:1.25em; font-weight:700; margin-bottom:18px;">
-            Leave your job
-        </p>
+<p>
+Based on your symptom profile, the strongest contributing factor appears to be prolonged occupational stress.
+</p>
 
-        <p style="text-align:left; font-size:0.98em; line-height:1.5; font-weight:400;">
-            Based on the symptom profile and lifestyle factors provided, the strongest contributing factor appears to be prolonged occupational stress.
-        </p>
+<p>
+Patterns including blood pressure elevation, fatigue, reduced recovery time and ongoing mental strain are frequently associated with sustained workplace stress exposure.
+</p>
 
-        <p style="text-align:left; font-size:0.98em; line-height:1.5; font-weight:400;">
-            Patterns associated with high blood pressure, fatigue, sleep disruption, reduced physical activity and ongoing mental strain are commonly linked to sustained workplace pressure and insufficient recovery time.
-        </p>
+<p>
+Reducing or removing the dominant stress source is likely to produce the largest health improvement.
+</p>
 
-        <p style="text-align:left; font-size:0.98em; line-height:1.5; font-weight:400;">
-            The data suggests your current role may be creating a chronic stress response. Over time this can negatively impact cardiovascular health, mood regulation, energy levels and overall wellbeing.
-        </p>
+<br>
+<button class="nav-btn" onclick="startAIAction()">Apply AI Intervention</button>
+<br><br>
+<button class="nav-btn" onclick="resetApp()">Start over</button>
 
-        <p style="text-align:left; font-size:0.98em; line-height:1.5; font-weight:400;">
-            In addition, reduced time for exercise, family connection and personal recovery increases the likelihood of burnout-related symptoms.
-        </p>
+</div>
+</div>
 
-        <p style="text-align:left; font-size:0.98em; line-height:1.5; font-weight:400;">
-            <strong>Clinical priority recommendation:</strong><br>
-            Reduce or remove the dominant stress source. For many individuals with this profile, changing work environment or leaving the current role produces the most significant health improvement.
-        </p>
+<!-- SCREEN 6 AI LOG -->
+<div class="screen" id="screen6">
+<div class="final show">
 
-        <br>
+<h2>AI Intervention Processing</h2>
 
-        <button class="nav-btn" onclick="resetApp()">Start over</button>
-    </div>
+<div class="logbox" id="aiLog">
+Initialising…
+</div>
+
+<br>
+<button class="nav-btn" onclick="resetApp()">Start over</button>
+
+</div>
 </div>
 
 </main>
 
 <script>
-// Option selection
-const optionButtons=document.querySelectorAll('.options button');
-optionButtons.forEach(b=>{
-    b.addEventListener('click',()=>b.classList.toggle('selected'));
+
+/* selectable buttons */
+document.querySelectorAll(".options button")
+.forEach(btn=>{
+    btn.addEventListener("click",()=>btn.classList.toggle("selected"));
 });
 
-// Progress bar update
+/* progress */
 function updateProgress(step){
-    const fill=document.getElementById('progressFill');
-    const percent=[25,50,75,90,100];
-    fill.style.width=percent[step-1]+'%';
+    const vals=[20,40,60,85,100,100];
+    document.getElementById("progressFill").style.width=vals[step-1]+"%";
 }
 
-// Screen navigation
+/* screen change */
 function next(num){
-    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-    document.getElementById('screen'+num).classList.add('active');
+    document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+    document.getElementById("screen"+num).classList.add("active");
     updateProgress(num);
 }
 
-// Fake AI loading then final screen
+/* loading */
 function showLoading(){
     next(4);
     setTimeout(()=>{
         next(5);
-        setTimeout(()=>{
-            document.getElementById('finalBox').classList.add('show');
-            updateProgress(5);
-        },50);
+        setTimeout(()=>document.getElementById("finalBox").classList.add("show"),50);
     },2200);
 }
 
-// Reset app
-function resetApp(){
-    document.getElementById('finalBox').classList.remove('show');
-    document.querySelectorAll('.options button').forEach(b=>b.classList.remove('selected'));
-    document.querySelectorAll('textarea').forEach(t=>t.value='');
-    setTimeout(()=>next(1),100);
-    updateProgress(1);
+/* AI panic log */
+function startAIAction(){
+
+    next(6);
+
+    const log=document.getElementById("aiLog");
+    log.innerHTML="";
+
+    const steps=[
+        "✔ Analysing occupational stress indicators...",
+        "✔ Matching symptom profile to intervention model...",
+        "✔ Generating employer communication template...",
+        "✔ Contact endpoint resolved: HR_CONTACT_DETECTED",
+        "✔ Authentication handshake complete...",
+        "⏳ Sending...",
+        "❌ Simulation mode active.",
+        "No external communication has been sent."
+    ];
+
+    let i=0;
+
+    function addStep(){
+        if(i<steps.length){
+            log.innerHTML += steps[i] + "<br>";
+            log.scrollTop=log.scrollHeight;
+            i++;
+            setTimeout(addStep,1200);
+        }
+    }
+
+    addStep();
 }
+
+/* reset */
+function resetApp(){
+    document.getElementById("finalBox").classList.remove("show");
+    document.querySelectorAll(".options button")
+        .forEach(b=>b.classList.remove("selected"));
+    document.querySelectorAll("textarea")
+        .forEach(t=>t.value="");
+    setTimeout(()=>next(1),100);
+}
+
+updateProgress(1);
+
 </script>
 
 </body>
