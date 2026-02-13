@@ -3,8 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Doctor Fixit</title>
+<title>Dr Fixit Health Checker</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- iPhone Home Screen metadata -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Dr Fixit Health Checker">
+<meta name="theme-color" content="#0d3b66">
+<link rel="apple-touch-icon" href="icon.png">
+
 <style>
 body {
     margin:0;
@@ -82,7 +89,7 @@ textarea{
 }
 
 .final{
-    text-align:center;
+    text-align:left;
     background:white;
     border-radius:10px;
     padding:30px 20px;
@@ -103,17 +110,40 @@ textarea{
 }
 
 .final p{
-    font-size:1.15em;
-    font-weight:500;
-    line-height:1.4;
+    font-size:1em;
+    line-height:1.5;
+    font-weight:400;
+    color:#234;
+}
+
+.progress-bar{
+    width:100%;
+    height:6px;
+    background:#d1e3f0;
+    border-radius:3px;
+    margin-bottom:20px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    width:0%;
+    background:#0d3b66;
+    transition: width 0.5s ease;
+    border-radius:3px;
 }
 </style>
 </head>
 <body>
 
-<header>Doctor Fixit</header>
+<header>Dr Fixit Health Checker</header>
 
 <main>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+</div>
 
 <!-- SCREEN 1 -->
 <div class="screen active" id="screen1">
@@ -162,15 +192,42 @@ textarea{
 
 <!-- SCREEN 4 LOADING -->
 <div class="screen" id="screen4">
-    <div class="loading">Analysing health profile...</div>
+    <div class="loading">Analysing health profile... AI confidence: 94%</div>
 </div>
 
 <!-- FINAL SCREEN -->
 <div class="screen" id="screen5">
     <div class="final" id="finalBox">
+
         <h2>Primary Recommendation</h2>
-        <p>Leave your job</p>
+
+        <p style="font-size:1.25em; font-weight:700; margin-bottom:18px;">
+            Leave your job
+        </p>
+
+        <p style="text-align:left; font-size:0.98em; line-height:1.5; font-weight:400;">
+            Based on the symptom profile and lifestyle factors provided, the strongest contributing factor appears to be prolonged occupational stress.
+        </p>
+
+        <p style="text-align:left; font-size:0.98em; line-height:1.5; font-weight:400;">
+            Patterns associated with high blood pressure, fatigue, sleep disruption, reduced physical activity and ongoing mental strain are commonly linked to sustained workplace pressure and insufficient recovery time.
+        </p>
+
+        <p style="text-align:left; font-size:0.98em; line-height:1.5; font-weight:400;">
+            The data suggests your current role may be creating a chronic stress response. Over time this can negatively impact cardiovascular health, mood regulation, energy levels and overall wellbeing.
+        </p>
+
+        <p style="text-align:left; font-size:0.98em; line-height:1.5; font-weight:400;">
+            In addition, reduced time for exercise, family connection and personal recovery increases the likelihood of burnout-related symptoms.
+        </p>
+
+        <p style="text-align:left; font-size:0.98em; line-height:1.5; font-weight:400;">
+            <strong>Clinical priority recommendation:</strong><br>
+            Reduce or remove the dominant stress source. For many individuals with this profile, changing work environment or leaving the current role produces the most significant health improvement.
+        </p>
+
         <br>
+
         <button class="nav-btn" onclick="resetApp()">Start over</button>
     </div>
 </div>
@@ -178,33 +235,47 @@ textarea{
 </main>
 
 <script>
+// Option selection
 const optionButtons=document.querySelectorAll('.options button');
 optionButtons.forEach(b=>{
     b.addEventListener('click',()=>b.classList.toggle('selected'));
 });
 
+// Progress bar update
+function updateProgress(step){
+    const fill=document.getElementById('progressFill');
+    const percent=[25,50,75,90,100];
+    fill.style.width=percent[step-1]+'%';
+}
+
+// Screen navigation
 function next(num){
     document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
     document.getElementById('screen'+num).classList.add('active');
+    updateProgress(num);
 }
 
+// Fake AI loading then final screen
 function showLoading(){
     next(4);
     setTimeout(()=>{
         next(5);
         setTimeout(()=>{
             document.getElementById('finalBox').classList.add('show');
-        },80);
+            updateProgress(5);
+        },50);
     },2200);
 }
 
+// Reset app
 function resetApp(){
     document.getElementById('finalBox').classList.remove('show');
     document.querySelectorAll('.options button').forEach(b=>b.classList.remove('selected'));
+    document.querySelectorAll('textarea').forEach(t=>t.value='');
     setTimeout(()=>next(1),100);
+    updateProgress(1);
 }
 </script>
 
 </body>
 </html>
-Update multi-step flow
